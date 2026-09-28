@@ -3,6 +3,7 @@ package br.com.erudio.service;
 import br.com.erudio.controllers.PersonController;
 import br.com.erudio.controllers.TestLogController;
 import br.com.erudio.data.dto.PersonDTO;
+import br.com.erudio.excepition.RequiredObjectIsNullException;
 import br.com.erudio.excepition.ResourceNotFoundException;
 
 import static br.com.erudio.mapper.ObjectMapper.parseListObjects;
@@ -19,7 +20,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class PersonServices {
@@ -27,7 +27,6 @@ public class PersonServices {
     @Autowired
     private PersonRepository repository;
 
-    private final AtomicLong counter = new AtomicLong();
     private Logger logger = LoggerFactory.getLogger(TestLogController.class.getName());
 
 
@@ -49,6 +48,10 @@ public class PersonServices {
 
 
     public PersonDTO create(PersonDTO dto) {
+        if (dto == null){
+            throw new RequiredObjectIsNullException();
+        }
+
         logger.info("Creating a Person");
         var entity = parseObject(dto, Person.class);
         var newDTO = parseObject(repository.save(entity), PersonDTO.class);
@@ -57,6 +60,10 @@ public class PersonServices {
     }
 
     public PersonDTO update(PersonDTO dto) {
+        if (dto == null){
+            throw new RequiredObjectIsNullException();
+        }
+
         logger.info("Updating a Person");
         Person entity = repository.findById(dto.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("No records found"));
