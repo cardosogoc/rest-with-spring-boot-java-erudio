@@ -3,6 +3,7 @@ package br.com.erudio.data.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.persistence.Column;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -15,14 +16,19 @@ public class PersonDTO implements Serializable {
     private Long id;
 
     @JsonProperty("first_name")
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
     @JsonProperty("last_name")
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @JsonProperty("address")
+    @Column(name = "address", nullable = false)
     private String address;
 
-    @JsonIgnore
+    @JsonProperty("gender")
+    @Column(name = "gender", nullable = false)
     private String gender;
 
     public PersonDTO() {}

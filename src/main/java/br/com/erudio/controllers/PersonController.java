@@ -4,6 +4,7 @@ import br.com.erudio.data.dto.PersonDTO;
 import br.com.erudio.service.PersonServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,22 +17,24 @@ public class PersonController {
     @Autowired
     private PersonServices service;
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE})
     public ResponseEntity<PersonDTO> findById(@PathVariable("id") Long id){
         return ResponseEntity.ok(service.findById(id));
     }
 
-    @GetMapping("/all")
+    @GetMapping(value = "/all",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE})
     public ResponseEntity<List<PersonDTO>> findAll(){
         return ResponseEntity.ok(service.findAll());
     }
 
-    @PostMapping
+    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE})
     public ResponseEntity<PersonDTO> create(@RequestBody PersonDTO dto){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(dto));
     }
 
-    @PutMapping
+    @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE})
     public ResponseEntity<PersonDTO> update(@RequestBody PersonDTO dto){
         return ResponseEntity.ok(service.update(dto));
     }
