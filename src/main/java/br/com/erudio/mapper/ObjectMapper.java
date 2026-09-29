@@ -1,5 +1,7 @@
 package br.com.erudio.mapper;
 
+import br.com.erudio.data.dto.BooksDTO;
+import br.com.erudio.model.Books;
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.github.dozermapper.core.Mapper;
 
@@ -19,6 +21,20 @@ public class ObjectMapper {
         for (Object o : origin) {
             destinationObjects.add(mapper.map(o, destination));
         }
+        return destinationObjects;
+    }
+
+    public static BooksDTO parseObject(Books origin) {
+        return mapper.map(origin, BooksDTO.class);
+    }
+
+    public static List<BooksDTO> parseListObjects(List<Books> origin) {
+        List<BooksDTO> destinationObjects = new ArrayList<BooksDTO>();
+
+        for (Books o : origin) {
+            destinationObjects.add(mapper.map(o, BooksDTO.class));
+        }
+
         return destinationObjects;
     }
 }
